@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo App</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 3rem 1rem;
+    }
+
+    .app {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 420px;
+      padding: 1.5rem;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    input {
+      flex: 1;
+      padding: 0.6rem 0.8rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus { border-color: #667eea; }
+
+    button {
+      padding: 0.6rem 1rem;
+      border: none;
+      border-radius: 8px;
+      background: #667eea;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover { background: #5a6fd6; }
+
+    ul { list-style: none; }
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.6rem 0.4rem;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    li.completed span {
+      text-decoration: line-through;
+      color: #aaa;
+    }
+
+    li span {
+      flex: 1;
+      cursor: pointer;
+      color: #333;
+    }
+
+    .delete {
+      background: #ff6b6b;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.85rem;
+    }
+
+    .delete:hover { background: #e55a5a; }
+
+    .empty {
+      text-align: center;
+      color: #aaa;
+      padding: 1rem 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>📝 Todo</h1>
+    <form id="form">
+      <input id="input" type="text" placeholder="Add a task..." autocomplete="off">
+      <button type="submit">Add</button>
+    </form>
+    <ul id="list"></ul>
+  </div>
+
+  <script>
+    const form = document.getElementById('form');
+    const input = document.getElementById('input');
+    const list = document.getElementById('list');
+
+    let todos = JSON.parse(localStorage.getItem('todos') || '[]');
+
+    function render() {
+      list.innerHTML = '';
+      if (todos.length === 0) {
+        list.innerHTML = '<div class="empty">No tasks yet</div>';
+        return;
+      }
+      todos.forEach((todo, i) => {
+        const li = document.createElement('li');
+        li.className = todo.done ? 'completed' : '';
+
+        const span = document.createElement('span');
+        span.textContent = todo.text;
+        span.onclick = () => {
+          todo.done = !todo.done;
+          save();
+          render();
+        };
+
+        const del = document.createElement('button');
+        del.className = 'delete';
+        del.textContent = '✕';
+        del.onclick = () => {
+          todos.splice(i, 1);
+          save();
+          render();
+        };
+
+        li.append(span, del);
+        list.appendChild(li);
+      });
+    }
+
+    function save() {
+      localStorage.setItem('todos', JSON.stringify(todos));
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+      todos.push({ text, done: false });
+      save();
+      render();
+      input.value = '';
+      input.focus();
+    });
+
+    render();
+  </script>
+</body>
+</html>
