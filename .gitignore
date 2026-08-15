@@ -47,8 +47,6 @@ next-env.d.ts
 *.db
 *.db-journal
 
-# Prisma-installed local agent skills (not app source)
-.agents/
+# Local agent skill caches (repo skills live under .agents/skills/)
 .claude/
 .windsurf/
-skills-lock.json
