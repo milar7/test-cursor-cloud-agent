@@ -1,0 +1,44 @@
+// Prisma schema for local SQLite todo + folder app
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Folder {
+  id        String   @id @default(cuid())
+  name      String
+  parentId  String?
+  parent    Folder?  @relation("FolderTree", fields: [parentId], references: [id], onDelete: Restrict)
+  children  Folder[] @relation("FolderTree")
+  todos     Todo[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([parentId])
+}
+
+model Todo {
+  id        String   @id @default(cuid())
+  text      String
+  done      Boolean  @default(false)
+  /// null folderId means Inbox
+  folderId  String?
+  folder    Folder?  @relation(fields: [folderId], references: [id], onDelete: Restrict)
+  position  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([folderId])
+  @@index([done])
+}
+
+/// Singleton row (id = 1) for UI preferences
+model AppState {
+  id                 Int     @id @default(1)
+  lastOpenedFolderId String?
+}
