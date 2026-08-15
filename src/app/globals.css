@@ -1,0 +1,446 @@
+@import "tailwindcss";
+
+:root {
+  --bg-0: #e8eef2;
+  --bg-1: #d5e2ea;
+  --ink: #1a2330;
+  --ink-soft: #5a6a7a;
+  --surface: #fbfcfd;
+  --surface-2: #f1f5f8;
+  --line: #d0dae3;
+  --accent: #0f7a6c;
+  --accent-hover: #0c655a;
+  --danger: #c44b4b;
+  --danger-soft: #f8e8e8;
+  --shadow: 0 18px 50px rgba(26, 35, 48, 0.12);
+  --radius: 14px;
+}
+
+@theme inline {
+  --color-background: var(--bg-0);
+  --color-foreground: var(--ink);
+  --font-sans: var(--font-display);
+  --font-mono: var(--font-geist-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: var(--font-ui), "Source Sans 3", sans-serif;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #c9dde8 0%, transparent 55%),
+    radial-gradient(900px 500px at 100% 0%, #b8d4c8 0%, transparent 50%),
+    linear-gradient(165deg, var(--bg-0), var(--bg-1));
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.app-shell {
+  width: min(720px, 100%);
+  margin: 2.5rem auto;
+  padding: 1.5rem;
+  background: var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: calc(var(--radius) + 4px);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.app-header .brand {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.75rem;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+
+.brand-icon {
+  color: var(--accent);
+}
+
+.tagline {
+  margin: 0.35rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.55rem;
+  background: var(--surface-2);
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+
+.crumb-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ink-soft);
+  padding: 0.35rem 0.55rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.crumb:hover,
+.crumb.over {
+  background: #fff;
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+.crumb.active {
+  background: #fff;
+  color: var(--ink);
+  border-color: var(--line);
+  font-weight: 600;
+}
+
+.crumb-sep {
+  color: #9aabba;
+}
+
+.banner.error {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 0.85rem;
+  background: var(--danger-soft);
+  color: var(--danger);
+  border-radius: 10px;
+  font-size: 0.92rem;
+}
+
+.banner.error button {
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.65rem;
+}
+
+.section-head h2,
+.todo-section h2 {
+  margin: 0;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.count {
+  display: inline-flex;
+  min-width: 1.35rem;
+  justify-content: center;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--ink);
+  font-size: 0.75rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.hint {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.ghost-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px dashed var(--line);
+  background: transparent;
+  color: var(--accent);
+  padding: 0.35rem 0.6rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.ghost-btn:hover {
+  background: #e7f4f1;
+}
+
+.inline-form,
+.todo-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.inline-form input,
+.todo-form input,
+.folder-row.editing input {
+  flex: 1;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.65rem 0.8rem;
+  background: #fff;
+  outline: none;
+}
+
+.inline-form input:focus,
+.todo-form input:focus,
+.folder-row.editing input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(15, 122, 108, 0.15);
+}
+
+.todo-form button[type="submit"],
+.inline-form button[type="submit"] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border: none;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  padding: 0.65rem 0.95rem;
+  cursor: pointer;
+}
+
+.todo-form button[type="submit"]:hover,
+.inline-form button[type="submit"]:hover {
+  background: var(--accent-hover);
+}
+
+.folder-list,
+.todo-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.folder-row {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  padding: 0.25rem;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.folder-row.over {
+  border-color: var(--accent);
+  background: #eaf7f4;
+}
+
+.folder-main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 0.55rem;
+  border: none;
+  background: transparent;
+  text-align: left;
+  padding: 0.55rem 0.45rem;
+  cursor: pointer;
+  color: inherit;
+  border-radius: 10px;
+}
+
+.folder-name {
+  font-weight: 600;
+}
+
+.folder-meta {
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+}
+
+.folder-main .chev {
+  color: #9aabba;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  background: var(--surface-2);
+  color: var(--ink);
+}
+
+.icon-btn.danger:hover {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.empty-inline {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  padding: 0.4rem 0.1rem;
+}
+
+.todo-section {
+  margin-top: 1rem;
+}
+
+.todo-section.muted .todo-text {
+  color: var(--ink-soft);
+}
+
+.todo-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  padding: 0.25rem 0.35rem;
+}
+
+.todo-row.done .todo-text {
+  text-decoration: line-through;
+}
+
+.grip {
+  border: none;
+  background: transparent;
+  color: #9aabba;
+  cursor: grab;
+  display: inline-flex;
+  padding: 0.35rem;
+}
+
+.todo-text {
+  flex: 1;
+  border: none;
+  background: transparent;
+  text-align: left;
+  padding: 0.55rem 0.25rem;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.todo-actions {
+  display: flex;
+  gap: 0.1rem;
+}
+
+.move-menu {
+  position: absolute;
+  right: 0.4rem;
+  top: calc(100% + 0.25rem);
+  z-index: 20;
+  width: min(260px, 80vw);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(26, 35, 48, 0.14);
+  overflow: hidden;
+}
+
+.move-menu-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.45rem 0.55rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.move-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0.25rem;
+  max-height: 220px;
+  overflow: auto;
+}
+
+.move-menu button {
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  padding: 0.5rem 0.55rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.move-menu button:hover {
+  background: var(--surface-2);
+}
+
+.drag-ghost {
+  padding: 0.65rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  max-width: 280px;
+}
+
+@media (max-width: 640px) {
+  .app-shell {
+    margin: 0;
+    min-height: 100vh;
+    border-radius: 0;
+    border: none;
+  }
+
+  .folder-main {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .folder-meta {
+    display: none;
+  }
+}
