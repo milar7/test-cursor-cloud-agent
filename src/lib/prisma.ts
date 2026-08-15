@@ -6,13 +6,16 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
-function createPrismaClient() {
-  const raw = process.env.DATABASE_URL ?? "file:./dev.db";
-  const relative = raw.startsWith("file:") ? raw.slice("file:".length) : raw;
-  const url = path.isAbsolute(relative)
-    ? `file:${relative}`
-    : `file:${path.join(process.cwd(), "prisma", relative)}`;
+function resolveSqliteUrl(raw: string): string {
+  const withoutScheme = raw.startsWith("file:") ? raw.slice("file:".length) : raw;
+  if (path.isAbsolute(withoutScheme)) {
+    return `file:${withoutScheme}`;
+  }
+  return `file:${path.resolve(process.cwd(), withoutScheme)}`;
+}
 
+function createPrismaClient() {
+  const url = resolveSqliteUrl(process.env.DATABASE_URL ?? "file:./prisma/dev.db");
   const adapter = new PrismaBetterSqlite3({ url });
   return new PrismaClient({ adapter });
 }
