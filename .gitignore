@@ -46,3 +46,9 @@ next-env.d.ts
 /prisma/dev.db-journal
 *.db
 *.db-journal
+
+# Prisma-installed local agent skills (not app source)
+.agents/
+.claude/
+.windsurf/
+skills-lock.json
